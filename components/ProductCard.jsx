@@ -1,0 +1,58 @@
+"use client";
+import { StarIcon } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+
+const ProductCard = ({ product }) => {
+  const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || "₹";
+
+  const rating = product?.rating?.length
+    ? Math.round(
+        product.rating.reduce((acc, curr) => acc + curr.rating, 0) /
+          product.rating.length,
+      )
+    : 4;
+
+  return (
+    <Link href={`/product/${product.id}`} className="group max-xl:mx-auto">
+      <div className="bg-[#F5F5F5] h-40 sm:w-60 sm:h-68 rounded-lg flex items-center justify-center">
+        <Image
+          width={400}
+          height={400}
+          className="max-h-30 sm:max-h-40 w-auto group-hover:scale-110 transition"
+          src={
+            product.images?.[0] || "https://source.unsplash.com/300x300/?spices"
+          }
+          alt={product.name}
+        />
+      </div>
+
+      <div className="flex justify-between gap-3 text-sm text-slate-800 pt-2 max-w-60">
+        <div>
+          <p className="font-medium">{product.name}</p>
+
+          <div className="flex">
+            {Array(5)
+              .fill("")
+              .map((_, index) => (
+                <StarIcon
+                  key={index}
+                  size={14}
+                  className="text-transparent mt-0.5"
+                  fill={rating >= index + 1 ? "#16a34a" : "#D1D5DB"}
+                />
+              ))}
+          </div>
+        </div>
+
+        <p className="font-medium">
+          {currency}
+          {product.price}
+        </p>
+      </div>
+    </Link>
+  );
+};
+
+export default ProductCard;

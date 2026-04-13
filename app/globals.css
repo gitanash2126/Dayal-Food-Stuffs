@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+/* Marquee animation */
+@layer components {
+  @keyframes marqueeScroll {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+/* Base styles */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white text-slate-800;
+  }
+
+  button {
+    cursor: pointer;
+  }
+}
+
+/* Hide scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Dayal Food Stuffs theme helpers */
+.container-custom {
+  @apply max-w-7xl mx-auto px-4;
+}
+
+.section-spacing {
+  @apply py-10 md:py-14;
+}
