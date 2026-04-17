@@ -1,9 +1,14 @@
 "use client";
+
 import { XIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { addAddress } from "@/lib/features/address/addressSlice";
 
 const AddressModal = ({ setShowAddressModal }) => {
+  const dispatch = useDispatch();
+
   const [address, setAddress] = useState({
     name: "",
     email: "",
@@ -22,115 +27,135 @@ const AddressModal = ({ setShowAddressModal }) => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    toast.success("Address saved for Dayal Food Stuffs");
+
+    dispatch(
+      addAddress({
+        id: Date.now().toString(),
+        ...address,
+      }),
+    );
+
+    toast.success("Address Added Successfully");
     setShowAddressModal(false);
   };
 
   return (
-    <form
-      onSubmit={(e) =>
-        toast.promise(handleSubmit(e), { loading: "Saving address..." })
-      }
-      className="fixed inset-0 z-50 bg-white/60 backdrop-blur h-screen flex items-center justify-center"
-    >
-      <div className="flex flex-col gap-4 text-slate-700 w-full max-w-sm mx-6 bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold">Delivery Address</h2>
+    <div className="fixed inset-0 z-[99999] bg-black/50 backdrop-blur-sm overflow-y-auto">
+      {/* Center Wrapper */}
+      <div className="min-h-screen flex items-center justify-center px-4 py-10">
+        {/* Modal */}
+        <form
+          onSubmit={handleSubmit}
+          className="relative bg-white w-full max-w-xl rounded-3xl shadow-2xl p-6 sm:p-8"
+        >
+          {/* Close */}
+          <button
+            type="button"
+            onClick={() => setShowAddressModal(false)}
+            className="absolute top-4 right-4 bg-slate-100 hover:bg-red-100 text-slate-600 hover:text-red-500 p-2 rounded-full transition"
+          >
+            <XIcon size={18} />
+          </button>
 
-        <input
-          name="name"
-          onChange={handleAddressChange}
-          value={address.name}
-          className="p-2 px-4 border border-slate-200 rounded w-full"
-          type="text"
-          placeholder="Full Name"
-          required
-        />
+          {/* Heading */}
+          <h2 className="text-3xl font-bold text-slate-800">Add New Address</h2>
 
-        <input
-          name="email"
-          onChange={handleAddressChange}
-          value={address.email}
-          className="p-2 px-4 border border-slate-200 rounded w-full"
-          type="email"
-          placeholder="Email address"
-          required
-        />
+          <p className="text-slate-500 mt-2 mb-6">
+            Enter delivery details carefully
+          </p>
 
-        <input
-          name="street"
-          onChange={handleAddressChange}
-          value={address.street}
-          className="p-2 px-4 border border-slate-200 rounded w-full"
-          type="text"
-          placeholder="House / Street"
-          required
-        />
+          {/* Inputs */}
+          <div className="space-y-4">
+            <input
+              name="name"
+              value={address.name}
+              onChange={handleAddressChange}
+              placeholder="Full Name"
+              required
+              className="w-full border border-slate-300 rounded-xl px-4 py-3 outline-none focus:border-green-600"
+            />
 
-        <div className="flex gap-3">
-          <input
-            name="city"
-            onChange={handleAddressChange}
-            value={address.city}
-            className="p-2 px-4 border border-slate-200 rounded w-full"
-            type="text"
-            placeholder="City"
-            required
-          />
+            <input
+              name="email"
+              type="email"
+              value={address.email}
+              onChange={handleAddressChange}
+              placeholder="Email Address"
+              required
+              className="w-full border border-slate-300 rounded-xl px-4 py-3 outline-none focus:border-green-600"
+            />
 
-          <input
-            name="state"
-            onChange={handleAddressChange}
-            value={address.state}
-            className="p-2 px-4 border border-slate-200 rounded w-full"
-            type="text"
-            placeholder="State"
-            required
-          />
-        </div>
+            <input
+              name="phone"
+              value={address.phone}
+              onChange={handleAddressChange}
+              placeholder="Phone Number"
+              required
+              className="w-full border border-slate-300 rounded-xl px-4 py-3 outline-none focus:border-green-600"
+            />
 
-        <div className="flex gap-3">
-          <input
-            name="zip"
-            onChange={handleAddressChange}
-            value={address.zip}
-            className="p-2 px-4 border border-slate-200 rounded w-full"
-            type="number"
-            placeholder="PIN Code"
-            required
-          />
+            <input
+              name="street"
+              value={address.street}
+              onChange={handleAddressChange}
+              placeholder="House No / Street / Area"
+              required
+              className="w-full border border-slate-300 rounded-xl px-4 py-3 outline-none focus:border-green-600"
+            />
 
-          <input
-            name="country"
-            onChange={handleAddressChange}
-            value={address.country}
-            className="p-2 px-4 border border-slate-200 rounded w-full"
-            type="text"
-          />
-        </div>
+            <div className="grid grid-cols-2 gap-4">
+              <input
+                name="city"
+                value={address.city}
+                onChange={handleAddressChange}
+                placeholder="City"
+                required
+                className="w-full border border-slate-300 rounded-xl px-4 py-3 outline-none focus:border-green-600"
+              />
 
-        <input
-          name="phone"
-          onChange={handleAddressChange}
-          value={address.phone}
-          className="p-2 px-4 border border-slate-200 rounded w-full"
-          type="text"
-          placeholder="Phone Number"
-          required
-        />
+              <input
+                name="state"
+                value={address.state}
+                onChange={handleAddressChange}
+                placeholder="State"
+                required
+                className="w-full border border-slate-300 rounded-xl px-4 py-3 outline-none focus:border-green-600"
+              />
+            </div>
 
-        <button className="bg-slate-800 text-white py-2.5 rounded-md hover:bg-slate-900 transition">
-          Save Address
-        </button>
+            <div className="grid grid-cols-2 gap-4">
+              <input
+                name="zip"
+                value={address.zip}
+                onChange={handleAddressChange}
+                placeholder="PIN Code"
+                required
+                className="w-full border border-slate-300 rounded-xl px-4 py-3 outline-none focus:border-green-600"
+              />
+
+              <input
+                name="country"
+                value={address.country}
+                onChange={handleAddressChange}
+                placeholder="Country"
+                required
+                className="w-full border border-slate-300 rounded-xl px-4 py-3 outline-none focus:border-green-600"
+              />
+            </div>
+          </div>
+
+          {/* Button */}
+          <button
+            type="submit"
+            className="w-full mt-6 bg-green-600 hover:bg-green-700 text-white py-3 rounded-full font-medium transition"
+          >
+            Save Address
+          </button>
+        </form>
       </div>
-
-      <XIcon
-        size={28}
-        className="absolute top-5 right-5 text-slate-500 cursor-pointer"
-        onClick={() => setShowAddressModal(false)}
-      />
-    </form>
+    </div>
   );
 };
 

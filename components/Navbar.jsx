@@ -36,7 +36,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white border-b border-gray-200 relative">
+    <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="mx-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between py-4">
           {/* Logo */}
@@ -44,20 +44,18 @@ const Navbar = () => {
             <span className="text-green-600">Dayal</span> Food Stuffs
           </Link>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-6 text-slate-700">
+          {/* Desktop */}
+          <div className="hidden md:flex items-center gap-6 text-slate-700 font-medium">
             <Link href="/">Home</Link>
             <Link href="/shop">Shop</Link>
             <Link href="/orders">Orders</Link>
-            <Link href="/contact">Contact Us</Link>
+            <Link href="/contact">Contact</Link>
 
-            {/* Search */}
             <form
               onSubmit={handleSearch}
               className="flex items-center gap-2 bg-slate-100 px-4 py-2 rounded-full"
             >
               <Search size={18} />
-
               <input
                 type="text"
                 placeholder="Search spices..."
@@ -67,65 +65,46 @@ const Navbar = () => {
               />
             </form>
 
-            {/* Cart */}
             <Link href="/cart" className="relative">
               <ShoppingCart size={22} />
-
               <span className="absolute -top-2 -right-2 bg-green-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
                 {cartCount || 0}
               </span>
             </Link>
           </div>
 
-          {/* Mobile Icons */}
+          {/* Mobile */}
           <div className="flex md:hidden items-center gap-4">
-            {/* Search */}
             <Link href="/shop">
               <Search size={21} />
             </Link>
 
-            {/* Cart */}
             <Link href="/cart" className="relative">
               <ShoppingCart size={22} />
-
               <span className="absolute -top-2 -right-2 bg-green-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
                 {cartCount || 0}
               </span>
             </Link>
 
-            {/* Menu */}
-            <button type="button" onClick={() => setMenuOpen(!menuOpen)}>
+            <button onClick={() => setMenuOpen(!menuOpen)}>
               {menuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Dropdown */}
+        {/* Mobile Menu */}
         {menuOpen && (
-          <div className="md:hidden pb-4 flex flex-col gap-4 text-slate-700">
-            <Link href="/" onClick={() => setMenuOpen(false)}>
-              Home
-            </Link>
+          <div className="md:hidden pb-4 flex flex-col gap-4">
+            <Link href="/">Home</Link>
+            <Link href="/shop">Shop</Link>
+            <Link href="/orders">Orders</Link>
+            <Link href="/contact">Contact</Link>
 
-            <Link href="/shop" onClick={() => setMenuOpen(false)}>
-              Shop
-            </Link>
-
-            <Link href="/orders" onClick={() => setMenuOpen(false)}>
-              Orders
-            </Link>
-
-            <Link href="/contact" onClick={() => setMenuOpen(false)}>
-              Contact Us
-            </Link>
-
-            {/* Search Box */}
             <form
               onSubmit={handleSearch}
               className="flex items-center gap-2 bg-slate-100 px-4 py-2 rounded-full"
             >
               <Search size={18} />
-
               <input
                 type="text"
                 placeholder="Search spices..."

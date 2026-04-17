@@ -1,11 +1,18 @@
+import hero1 from "./hero1.jpg";
+import hero2 from "./hero2.jpg";
+import hero3 from "./hero3.jpg";
+
+export const assets = {
+  hero1,
+  hero2,
+  hero3,
+};
+
 export const heroData = {
   title: "Dayal Food Stuffs",
   subtitle: "Fresh Spices & Pure Masale - Owner Amrit Dayal",
-  images: [
-    "https://source.unsplash.com/1200x500/?spices",
-    "https://source.unsplash.com/1200x500/?indian-spices",
-  ],
-  model: "https://source.unsplash.com/400x500/?spices",
+  images: [hero1, hero2],
+  model: hero3,
 };
 
 export const categories = [
@@ -22,7 +29,7 @@ export const products = [
     name: "Turmeric Powder",
     price: 120,
     mrp: 150,
-    images: ["https://source.unsplash.com/400x400/?turmeric"],
+    images: [hero1],
     category: "Ground Spices",
     inStock: true,
     description: "Fresh turmeric powder from Dayal Food Stuffs",
@@ -32,7 +39,7 @@ export const products = [
     name: "Red Chilli Powder",
     price: 140,
     mrp: 170,
-    images: ["https://source.unsplash.com/400x400/?red-chilli"],
+    images: [hero2],
     category: "Ground Spices",
     inStock: true,
     description: "Spicy red chilli powder",
@@ -42,7 +49,7 @@ export const products = [
     name: "Coriander Powder",
     price: 110,
     mrp: 140,
-    images: ["https://source.unsplash.com/400x400/?coriander"],
+    images: [hero3],
     category: "Ground Spices",
     inStock: true,
     description: "Pure coriander powder",
@@ -52,7 +59,7 @@ export const products = [
     name: "Garam Masala",
     price: 180,
     mrp: 220,
-    images: ["https://source.unsplash.com/400x400/?garam-masala"],
+    images: [hero1],
     category: "Blended Masala",
     inStock: true,
     description: "Authentic garam masala mix",
@@ -62,7 +69,7 @@ export const products = [
     name: "Cumin Seeds",
     price: 220,
     mrp: 260,
-    images: ["https://source.unsplash.com/400x400/?cumin"],
+    images: [hero2],
     category: "Whole Spices",
     inStock: true,
     description: "Premium cumin seeds",
@@ -72,7 +79,7 @@ export const products = [
     name: "Black Pepper",
     price: 450,
     mrp: 520,
-    images: ["https://source.unsplash.com/400x400/?black-pepper"],
+    images: [hero3],
     category: "Whole Spices",
     inStock: true,
     description: "Strong black pepper",
@@ -84,12 +91,12 @@ export const addressDummyData = [
     id: "1",
     name: "Home",
     email: "customer@gmail.com",
-    street: "Gorakhpur Road",
+    street: "17-D, Nathmalpur",
     city: "Gorakhpur",
     state: "Uttar Pradesh",
-    zip: "221010",
+    zip: "273015",
     country: "India",
-    phone: "9876543210",
+    phone: "9335082270",
   },
 ];
 
@@ -101,12 +108,12 @@ export const orderDummyData = [
     total: 260,
     address: {
       name: "Home",
-      street: "Gorakhpur Road",
+      street: "17-D, Nathmalpur",
       city: "Gorakhpur",
       state: "Uttar Pradesh",
-      zip: "221010",
+      zip: "273015",
       country: "India",
-      phone: "9876543210",
+      phone: "9335082270",
     },
     orderItems: [
       {
@@ -115,7 +122,7 @@ export const orderDummyData = [
         product: {
           id: "1",
           name: "Turmeric Powder",
-          images: ["https://source.unsplash.com/200x200/?turmeric"],
+          images: [hero1],
         },
       },
       {
@@ -124,7 +131,7 @@ export const orderDummyData = [
         product: {
           id: "2",
           name: "Red Chilli Powder",
-          images: ["https://source.unsplash.com/200x200/?red-chilli"],
+          images: [hero2],
         },
       },
     ],

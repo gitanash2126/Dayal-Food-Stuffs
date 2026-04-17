@@ -6,55 +6,65 @@ const ourSpecsData = [
   {
     title: "Fresh & Pure Spices",
     description:
-      "We provide freshly packed spices with natural aroma and authentic taste.",
+      "Freshly packed masale with natural aroma, rich color and authentic taste for every kitchen.",
     icon: LeafIcon,
-    accent: "#16a34a",
+    accent: "bg-green-600",
+    light: "bg-green-50",
   },
   {
     title: "Fast Delivery",
     description:
-      "Quick and safe delivery across your city with proper packaging.",
+      "Quick doorstep delivery with safe packaging so your products arrive fresh and secure.",
     icon: TruckIcon,
-    accent: "#2563eb",
+    accent: "bg-blue-600",
+    light: "bg-blue-50",
   },
   {
     title: "Quality Guaranteed",
     description:
-      "Premium quality masale selected carefully for best cooking experience.",
+      "Premium quality spices selected carefully to give you the best cooking experience.",
     icon: ShieldCheckIcon,
-    accent: "#f59e0b",
+    accent: "bg-yellow-500",
+    light: "bg-yellow-50",
   },
 ];
 
 const OurSpecs = () => {
   return (
-    <div className="px-6 my-20 max-w-6xl mx-auto">
+    <section className="px-4 sm:px-6 py-16 sm:py-20 max-w-7xl mx-auto">
+      {/* Heading */}
       <Title
         visibleButton={false}
         title="Why Choose Dayal Food Stuffs"
-        description="We provide fresh spices, premium quality and fast delivery to make your cooking better."
+        description="Fresh spices, premium quality and trusted service for every home kitchen."
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 mt-16">
+      {/* Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12 sm:mt-16">
         {ourSpecsData.map((spec, index) => (
           <div
             key={index}
-            className="relative h-44 px-8 flex flex-col items-center justify-center text-center border rounded-lg"
+            className={`relative rounded-2xl border border-slate-200 p-7 pt-10 hover:shadow-xl transition duration-300 ${spec.light}`}
           >
-            <h3 className="text-slate-800 font-medium">{spec.title}</h3>
-
-            <p className="text-sm text-slate-600 mt-3">{spec.description}</p>
-
+            {/* Icon */}
             <div
-              className="absolute -top-5 text-white size-10 flex items-center justify-center rounded-md"
-              style={{ backgroundColor: spec.accent }}
+              className={`absolute -top-5 left-6 size-12 rounded-xl flex items-center justify-center text-white shadow-md ${spec.accent}`}
             >
-              <spec.icon size={20} />
+              <spec.icon size={22} />
             </div>
+
+            {/* Content */}
+            <h3 className="text-lg font-semibold text-slate-800">
+              {spec.title}
+            </h3>
+
+            <p className="text-sm text-slate-600 mt-3 leading-6">
+              {spec.description}
+            </p>
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 
