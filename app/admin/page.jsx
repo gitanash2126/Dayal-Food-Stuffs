@@ -1,5 +1,7 @@
 "use client";
-import { dummyAdminDashboardData } from "@/assets/assets";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Loading from "@/components/Loading";
 import OrdersAreaChart from "@/components/OrdersAreaChart";
 import {
@@ -7,9 +9,9 @@ import {
   ShoppingBasketIcon,
   TagsIcon,
 } from "lucide-react";
-import { useEffect, useState } from "react";
 
 export default function AdminDashboard() {
+  const router = useRouter();
   const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || "₹";
 
   const [loading, setLoading] = useState(true);
@@ -20,9 +22,42 @@ export default function AdminDashboard() {
     allOrders: [],
   });
 
-  const dashboardCardsData = [
+  useEffect(() => {
+    const isAdminLoggedIn = localStorage.getItem("adminLoggedIn");
+
+    if (!isAdminLoggedIn) {
+      router.push("/admin/login");
+      return;
+    }
+
+    // Valid date based dummy orders
+    const today = new Date();
+
+    const sampleOrders = [
+      { createdAt: new Date(today.getFullYear(), 0, 5) },
+      { createdAt: new Date(today.getFullYear(), 0, 12) },
+      { createdAt: new Date(today.getFullYear(), 1, 8) },
+      { createdAt: new Date(today.getFullYear(), 1, 18) },
+      { createdAt: new Date(today.getFullYear(), 2, 9) },
+      { createdAt: new Date(today.getFullYear(), 2, 22) },
+      { createdAt: new Date(today.getFullYear(), 3, 11) },
+      { createdAt: new Date(today.getFullYear(), 4, 14) },
+      { createdAt: new Date(today.getFullYear(), 5, 17) },
+    ];
+
+    setDashboardData({
+      products: 6,
+      revenue: 12250,
+      orders: 18,
+      allOrders: sampleOrders,
+    });
+
+    setLoading(false);
+  }, [router]);
+
+  const cards = [
     {
-      title: "Total Spices",
+      title: "Total Products",
       value: dashboardData.products,
       icon: ShoppingBasketIcon,
     },
@@ -38,48 +73,51 @@ export default function AdminDashboard() {
     },
   ];
 
-  const fetchDashboardData = async () => {
-    setDashboardData(dummyAdminDashboardData);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
-
   if (loading) return <Loading />;
 
   return (
-    <div className="text-slate-500">
-      <h1 className="text-2xl">
-        Dayal Food Stuffs{" "}
-        <span className="text-slate-800 font-medium">Dashboard</span>
-      </h1>
+    <div className="text-slate-600">
+      {/* Heading */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-slate-800">Admin Dashboard</h1>
+
+        <p className="text-sm text-slate-500 mt-1">
+          Welcome to Dayal Food Stuffs management panel
+        </p>
+      </div>
 
       {/* Cards */}
-      <div className="flex flex-wrap gap-5 my-10 mt-4">
-        {dashboardCardsData.map((card, index) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+        {cards.map((card, index) => (
           <div
             key={index}
-            className="flex items-center gap-10 border border-slate-200 p-3 px-6 rounded-lg"
+            className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm"
           >
-            <div className="flex flex-col gap-3 text-xs">
-              <p>{card.title}</p>
-              <b className="text-2xl font-medium text-slate-700">
-                {card.value}
-              </b>
-            </div>
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-slate-500">{card.title}</p>
 
-            <card.icon
-              size={50}
-              className=" w-11 h-11 p-2.5 text-slate-400 bg-slate-100 rounded-full"
-            />
+                <h2 className="text-3xl font-bold text-slate-800 mt-2">
+                  {card.value}
+                </h2>
+              </div>
+
+              <div className="w-14 h-14 rounded-full bg-green-100 text-green-600 flex items-center justify-center">
+                <card.icon size={26} />
+              </div>
+            </div>
           </div>
         ))}
       </div>
 
-      {/* Orders Chart */}
-      <OrdersAreaChart allOrders={dashboardData.allOrders} />
+      {/* Chart */}
+      <div className="mt-10 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+        <h2 className="text-xl font-semibold text-slate-800 mb-5">
+          Orders Overview
+        </h2>
+
+        <OrdersAreaChart allOrders={dashboardData.allOrders} />
+      </div>
     </div>
   );
 }

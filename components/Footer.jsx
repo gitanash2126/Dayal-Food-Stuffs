@@ -64,7 +64,7 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Links */}
           {sections.map((section, index) => (
             <div key={index}>
               <h3 className="text-slate-800 font-semibold text-lg mb-5">
@@ -97,24 +97,30 @@ const Footer = () => {
             </h3>
 
             <div className="space-y-5 text-sm text-slate-600">
+              {/* Admin Login */}
               <div>
-                <p className="font-semibold text-slate-800 text-base">
-                  Amrit Dayal
-                </p>
-                <p className="text-slate-500">Owner</p>
+                <Link
+                  href="/admin/login"
+                  className="inline-flex items-center gap-2 bg-slate-900 hover:bg-green-600 text-white px-5 py-2.5 rounded-full text-sm font-medium transition"
+                >
+                  Admin Login
+                </Link>
               </div>
 
+              {/* Phone */}
               <a
                 href="tel:+919335082270"
                 className="flex gap-3 hover:text-green-600 transition"
               >
                 <Phone size={16} className="mt-0.5 shrink-0" />
+
                 <span>
                   +91 9335082270 <br />
                   +91 8896541914
                 </span>
               </a>
 
+              {/* Email */}
               <a
                 href="mailto:dayalfoods71@gmail.com"
                 className="flex gap-3 hover:text-green-600 transition break-all"
@@ -123,6 +129,7 @@ const Footer = () => {
                 <span>dayalfoods71@gmail.com</span>
               </a>
 
+              {/* Address */}
               <a
                 href="https://www.google.com/maps/search/?api=1&query=17-D+Nathmalpur+Near+Green+City+Colony+Gorakhnath+Gorakhpur+273015"
                 target="_blank"
@@ -130,12 +137,14 @@ const Footer = () => {
                 className="flex gap-3 hover:text-green-600 transition"
               >
                 <MapPin size={16} className="mt-1 shrink-0" />
+
                 <span>
                   17-D, Nathmalpur, Near Green City Colony, Gorakhnath,
                   Gorakhpur - 273015
                 </span>
               </a>
 
+              {/* Timing */}
               <div className="flex gap-3">
                 <Clock3 size={16} className="mt-0.5 shrink-0" />
                 <span>Mon - Sun : 8:00 AM to 9:00 PM</span>

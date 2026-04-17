@@ -137,3 +137,19 @@ export const orderDummyData = [
     ],
   },
 ];
+
+/* Admin Dashboard Dummy Data */
+export const dummyAdminDashboardData = {
+  products: 6,
+  revenue: 12250,
+  orders: 18,
+
+  allOrders: [
+    { month: "Jan", orders: 4 },
+    { month: "Feb", orders: 6 },
+    { month: "Mar", orders: 3 },
+    { month: "Apr", orders: 5 },
+    { month: "May", orders: 8 },
+    { month: "Jun", orders: 7 },
+  ],
+};
