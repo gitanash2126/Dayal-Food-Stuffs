@@ -1,42 +1,39 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Title from "./Title";
 import ProductCard from "./ProductCard";
 import { useSelector } from "react-redux";
 
 const LatestProducts = () => {
-  const displayQuantity = 4;
   const products = useSelector((state) => state.product.list);
 
-  const visibleProducts = products.slice(0, displayQuantity);
+  const [mounted, setMounted] = useState(false);
+
+  const displayQuantity = 4;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   return (
-    <section className="px-4 sm:px-6 py-16 sm:py-20 max-w-7xl mx-auto">
-      {/* Heading */}
+    <div className="px-6 my-30 max-w-6xl mx-auto">
       <Title
         title="Latest Spices"
-        description={`Showing ${visibleProducts.length} of ${products.length} fresh arrivals`}
+        description={`Showing ${
+          products.length < displayQuantity ? products.length : displayQuantity
+        } of ${products.length} fresh arrivals`}
         href="/shop"
       />
 
-      {/* Grid */}
-      <div className="mt-10 sm:mt-14 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 place-items-center">
-        {visibleProducts.map((product, index) => (
+      <div className="mt-12 grid grid-cols-2 sm:flex flex-wrap gap-6 justify-between">
+        {products.slice(0, displayQuantity).map((product, index) => (
           <ProductCard key={index} product={product} />
         ))}
       </div>
-
-      {/* CTA */}
-      <div className="flex justify-center mt-10">
-        <a
-          href="/shop"
-          className="px-7 py-3 rounded-full bg-slate-800 text-white text-sm font-medium hover:bg-slate-900 transition"
-        >
-          Explore More
-        </a>
-      </div>
-    </section>
+    </div>
   );
 };
 

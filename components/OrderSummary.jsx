@@ -15,13 +15,16 @@ import { useRouter } from "next/navigation";
 
 const OrderSummary = ({ totalPrice }) => {
   const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || "₹";
+
   const router = useRouter();
 
   const addressList = useSelector((state) => state.address.list);
 
   const [selectedAddress, setSelectedAddress] = useState(null);
+
   const [showAddressModal, setShowAddressModal] = useState(false);
 
+  /* REAL ORDER PLACE */
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
 
@@ -30,7 +33,32 @@ const OrderSummary = ({ totalPrice }) => {
       return;
     }
 
+    const oldOrders = JSON.parse(localStorage.getItem("customerOrders")) || [];
+
+    const newOrder = {
+      id: "OD" + Date.now(),
+      customer: "Customer",
+      phone: selectedAddress.phone,
+      total: totalPrice,
+      status: "Pending",
+      payment: "COD",
+      address: `${selectedAddress.street}, ${selectedAddress.city}, ${selectedAddress.state}, ${selectedAddress.zip}`,
+      items: [
+        {
+          name: "Spices Order",
+          qty: 1,
+          image: "/hero1.jpg",
+        },
+      ],
+      createdAt: new Date().toISOString(),
+    };
+
+    const updatedOrders = [newOrder, ...oldOrders];
+
+    localStorage.setItem("customerOrders", JSON.stringify(updatedOrders));
+
     toast.success("Order placed successfully");
+
     router.push("/orders");
   };
 
@@ -113,6 +141,7 @@ const OrderSummary = ({ totalPrice }) => {
         <div className="py-5 space-y-3 border-b border-slate-200">
           <div className="flex justify-between text-sm">
             <span className="text-slate-600">Subtotal</span>
+
             <span className="font-medium text-slate-800">
               {currency}
               {totalPrice}
@@ -121,11 +150,13 @@ const OrderSummary = ({ totalPrice }) => {
 
           <div className="flex justify-between text-sm">
             <span className="text-slate-600">Shipping</span>
+
             <span className="text-green-600 font-medium">Free</span>
           </div>
 
           <div className="flex justify-between text-sm">
             <span className="text-slate-600">Discount</span>
+
             <span className="text-green-600 font-medium">10% OFF Applied</span>
           </div>
         </div>
@@ -152,7 +183,7 @@ const OrderSummary = ({ totalPrice }) => {
           Place Order
         </button>
 
-        {/* WhatsApp Order */}
+        {/* WhatsApp */}
         <a
           href={`https://wa.me/919335082270?text=Hello, I want to place order worth ${currency}${totalPrice}`}
           target="_blank"
@@ -161,20 +192,23 @@ const OrderSummary = ({ totalPrice }) => {
           Order on WhatsApp
         </a>
 
-        {/* Trust Badges */}
+        {/* Trust */}
         <div className="grid grid-cols-3 gap-3 mt-6 text-center">
           <div className="bg-slate-50 rounded-2xl p-3">
             <ShieldCheck className="mx-auto text-green-600" size={18} />
+
             <p className="text-[11px] mt-2 text-slate-600">Secure</p>
           </div>
 
           <div className="bg-slate-50 rounded-2xl p-3">
             <Truck className="mx-auto text-green-600" size={18} />
+
             <p className="text-[11px] mt-2 text-slate-600">Fast Delivery</p>
           </div>
 
           <div className="bg-slate-50 rounded-2xl p-3">
             <BadgeCheck className="mx-auto text-green-600" size={18} />
+
             <p className="text-[11px] mt-2 text-slate-600">Trusted</p>
           </div>
         </div>

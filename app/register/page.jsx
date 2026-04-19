@@ -7,189 +7,184 @@ import {
   LockKeyhole,
   Phone,
   MapPin,
-  Home,
   X,
   ArrowRight,
 } from "lucide-react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function RegisterPage() {
+  const router = useRouter();
+
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    city: "",
+    state: "",
+    pin: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+
+    if (form.password !== form.confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+
+    const exists = users.find((user) => user.email === form.email);
+
+    if (exists) {
+      toast.error("Email already registered");
+      return;
+    }
+
+    const newUser = {
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+      address: `${form.address}, ${form.city}, ${form.state} - ${form.pin}`,
+      password: form.password,
+    };
+
+    const updatedUsers = [...users, newUser];
+
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
+
+    localStorage.setItem("currentUser", JSON.stringify(newUser));
+
+    toast.success("Account created successfully");
+
+    router.push("/account");
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-slate-100 flex items-center justify-center px-4 py-10">
       <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-200 p-8 overflow-hidden">
-        {/* Close Button */}
+        {/* Close */}
         <Link
           href="/"
-          className="absolute top-4 right-4 bg-slate-100 hover:bg-red-50 hover:text-red-500 p-2 rounded-full transition z-20"
+          className="absolute top-4 right-4 bg-slate-100 hover:bg-red-50 hover:text-red-500 p-2 rounded-full z-20"
         >
           <X size={18} />
         </Link>
 
-        {/* Background Glow */}
-        <div className="absolute -top-16 -left-16 w-40 h-40 bg-green-100 rounded-full blur-3xl opacity-60"></div>
-        <div className="absolute -bottom-16 -right-16 w-40 h-40 bg-emerald-100 rounded-full blur-3xl opacity-50"></div>
-
         {/* Heading */}
-        <div className="relative z-10">
-          <h1 className="text-3xl sm:text-4xl font-bold text-slate-800 text-center">
-            Create Account ✨
-          </h1>
+        <h1 className="text-3xl sm:text-4xl font-bold text-slate-800 text-center">
+          Create Account ✨
+        </h1>
 
-          <p className="text-slate-500 text-center mt-2 text-sm sm:text-base">
-            Register once and enjoy faster checkout with saved delivery details
-          </p>
-        </div>
+        <p className="text-slate-500 text-center mt-2 text-sm">
+          Register once and enjoy faster checkout
+        </p>
 
         {/* Form */}
-        <form className="mt-8 space-y-5 relative z-10">
-          {/* Full Name */}
-          <div>
-            <label className="text-sm font-medium text-slate-700">
-              Full Name
-            </label>
+        <form onSubmit={handleRegister} className="mt-8 space-y-5">
+          {/* Name */}
+          <InputField
+            icon={<User size={18} />}
+            placeholder="Full Name"
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+          />
 
-            <div className="mt-2 flex items-center gap-3 border border-slate-300 rounded-xl px-4 py-3 focus-within:border-green-600 transition">
-              <User size={18} className="text-slate-400" />
-              <input
-                type="text"
-                placeholder="Enter your full name"
-                className="w-full outline-none"
-              />
-            </div>
-          </div>
-
-          {/* Email + Mobile */}
+          {/* Email + Phone */}
           <div className="grid sm:grid-cols-2 gap-5">
-            <div>
-              <label className="text-sm font-medium text-slate-700">
-                Email Address
-              </label>
+            <InputField
+              icon={<Mail size={18} />}
+              placeholder="Email"
+              name="email"
+              value={form.email}
+              onChange={handleChange}
+            />
 
-              <div className="mt-2 flex items-center gap-3 border border-slate-300 rounded-xl px-4 py-3 focus-within:border-green-600 transition">
-                <Mail size={18} className="text-slate-400" />
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="w-full outline-none"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="text-sm font-medium text-slate-700">
-                Mobile Number
-              </label>
-
-              <div className="mt-2 flex items-center gap-3 border border-slate-300 rounded-xl px-4 py-3 focus-within:border-green-600 transition">
-                <Phone size={18} className="text-slate-400" />
-                <input
-                  type="text"
-                  placeholder="Enter mobile number"
-                  className="w-full outline-none"
-                />
-              </div>
-            </div>
+            <InputField
+              icon={<Phone size={18} />}
+              placeholder="Phone"
+              name="phone"
+              value={form.phone}
+              onChange={handleChange}
+            />
           </div>
 
           {/* Address */}
-          <div>
-            <label className="text-sm font-medium text-slate-700">
-              Full Address
-            </label>
-
-            <div className="mt-2 flex items-start gap-3 border border-slate-300 rounded-xl px-4 py-3 focus-within:border-green-600 transition">
-              <Home size={18} className="text-slate-400 mt-1" />
-
-              <textarea
-                rows="3"
-                placeholder="House No, Street, Area"
-                className="w-full outline-none resize-none"
-              ></textarea>
-            </div>
-          </div>
+          <textarea
+            rows="3"
+            placeholder="Full Address"
+            name="address"
+            value={form.address}
+            onChange={handleChange}
+            required
+            className="w-full border border-slate-300 rounded-xl px-4 py-3 outline-none"
+          ></textarea>
 
           {/* City + State */}
           <div className="grid sm:grid-cols-2 gap-5">
-            <div>
-              <label className="text-sm font-medium text-slate-700">City</label>
+            <InputField
+              icon={<MapPin size={18} />}
+              placeholder="City"
+              name="city"
+              value={form.city}
+              onChange={handleChange}
+            />
 
-              <div className="mt-2 flex items-center gap-3 border border-slate-300 rounded-xl px-4 py-3 focus-within:border-green-600 transition">
-                <MapPin size={18} className="text-slate-400" />
-                <input
-                  type="text"
-                  placeholder="Enter city"
-                  className="w-full outline-none"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="text-sm font-medium text-slate-700">
-                State
-              </label>
-
-              <div className="mt-2 flex items-center gap-3 border border-slate-300 rounded-xl px-4 py-3 focus-within:border-green-600 transition">
-                <MapPin size={18} className="text-slate-400" />
-                <input
-                  type="text"
-                  placeholder="Enter state"
-                  className="w-full outline-none"
-                />
-              </div>
-            </div>
+            <InputField
+              icon={<MapPin size={18} />}
+              placeholder="State"
+              name="state"
+              value={form.state}
+              onChange={handleChange}
+            />
           </div>
 
-          {/* PIN + Password */}
+          {/* Pin + Password */}
           <div className="grid sm:grid-cols-2 gap-5">
-            <div>
-              <label className="text-sm font-medium text-slate-700">
-                PIN Code
-              </label>
+            <InputField
+              placeholder="PIN Code"
+              name="pin"
+              value={form.pin}
+              onChange={handleChange}
+            />
 
-              <div className="mt-2 border border-slate-300 rounded-xl px-4 py-3 focus-within:border-green-600 transition">
-                <input
-                  type="text"
-                  placeholder="Enter PIN Code"
-                  className="w-full outline-none"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="text-sm font-medium text-slate-700">
-                Password
-              </label>
-
-              <div className="mt-2 flex items-center gap-3 border border-slate-300 rounded-xl px-4 py-3 focus-within:border-green-600 transition">
-                <LockKeyhole size={18} className="text-slate-400" />
-                <input
-                  type="password"
-                  placeholder="Create password"
-                  className="w-full outline-none"
-                />
-              </div>
-            </div>
+            <InputField
+              icon={<LockKeyhole size={18} />}
+              placeholder="Password"
+              type="password"
+              name="password"
+              value={form.password}
+              onChange={handleChange}
+            />
           </div>
 
           {/* Confirm Password */}
-          <div>
-            <label className="text-sm font-medium text-slate-700">
-              Confirm Password
-            </label>
-
-            <div className="mt-2 flex items-center gap-3 border border-slate-300 rounded-xl px-4 py-3 focus-within:border-green-600 transition">
-              <LockKeyhole size={18} className="text-slate-400" />
-              <input
-                type="password"
-                placeholder="Confirm password"
-                className="w-full outline-none"
-              />
-            </div>
-          </div>
+          <InputField
+            icon={<LockKeyhole size={18} />}
+            placeholder="Confirm Password"
+            type="password"
+            name="confirmPassword"
+            value={form.confirmPassword}
+            onChange={handleChange}
+          />
 
           {/* Button */}
           <button
             type="submit"
-            className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-full font-medium transition flex items-center justify-center gap-2"
+            className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-full font-medium flex items-center justify-center gap-2"
           >
             Create Account
             <ArrowRight size={18} />
@@ -197,7 +192,7 @@ export default function RegisterPage() {
         </form>
 
         {/* Login */}
-        <p className="text-center text-sm text-slate-500 mt-7 relative z-10">
+        <p className="text-center text-sm text-slate-500 mt-7">
           Already have an account?{" "}
           <Link
             href="/login"
@@ -206,11 +201,32 @@ export default function RegisterPage() {
             Login
           </Link>
         </p>
-
-        <p className="text-center text-xs text-slate-400 mt-3 relative z-10">
-          Safe • Secure • Trusted Registration
-        </p>
       </div>
+    </div>
+  );
+}
+
+function InputField({
+  icon,
+  placeholder,
+  type = "text",
+  name,
+  value,
+  onChange,
+}) {
+  return (
+    <div className="flex items-center gap-3 border border-slate-300 rounded-xl px-4 py-3 focus-within:border-green-600 transition">
+      {icon && <span className="text-slate-400">{icon}</span>}
+
+      <input
+        type={type}
+        name={name}
+        required
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        className="w-full outline-none"
+      />
     </div>
   );
 }

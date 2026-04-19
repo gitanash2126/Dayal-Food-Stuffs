@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Image from "next/image";
+import logo from "@/assets/logo.jpeg";
 import { Phone, Mail, MapPin, Clock3, ChevronRight } from "lucide-react";
 
 const Footer = () => {
@@ -25,24 +27,39 @@ const Footer = () => {
 
   return (
     <footer className="mt-24 relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-green-50 border-t border-slate-200">
-      {/* Glow Background */}
-      <div className="absolute top-0 left-0 w-72 h-72 bg-green-100 blur-3xl opacity-40 rounded-full"></div>
-      <div className="absolute bottom-0 right-0 w-72 h-72 bg-emerald-100 blur-3xl opacity-40 rounded-full"></div>
+      {/* Glow */}
+      <div className="absolute top-0 left-0 w-80 h-80 bg-green-100 blur-3xl opacity-40 rounded-full"></div>
+      <div className="absolute bottom-0 right-0 w-80 h-80 bg-emerald-100 blur-3xl opacity-40 rounded-full"></div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
-        {/* Main Footer */}
+        {/* Main */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 py-16">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <Link href="/" className="text-3xl font-bold text-slate-800">
-              <span className="text-green-600">Dayal</span> Food Stuffs
+            <Link href="/" className="flex items-center gap-3">
+              <Image
+                src={logo}
+                alt="Dayal Food Stuffs"
+                width={54}
+                height={54}
+                className="rounded-full border-2 border-green-600 object-cover"
+              />
+
+              <div>
+                <h2 className="text-2xl font-bold text-slate-800">
+                  <span className="text-green-600">Dayal</span> Food Stuffs
+                </h2>
+
+                <p className="text-xs text-slate-500">
+                  Pure Spices & Trusted Taste
+                </p>
+              </div>
             </Link>
 
-            <p className="mt-5 text-[15px] leading-8 text-slate-600 max-w-sm font-normal">
-              Dayal Food Stuffs brings you fresh, pure and authentic spices with
-              rich aroma, premium quality and trusted taste. Carefully packed
-              and delivered to your kitchen at affordable prices for everyday
-              cooking.
+            <p className="mt-5 text-[15px] leading-8 text-slate-600 max-w-sm">
+              Bringing pure spices, authentic masale and trusted quality
+              directly to your kitchen with affordable pricing, rich aroma and
+              freshness.
             </p>
 
             {/* Buttons */}
@@ -50,7 +67,7 @@ const Footer = () => {
               <a
                 href="https://wa.me/919335082270"
                 target="_blank"
-                className="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-full text-sm font-medium transition"
+                className="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-full text-sm font-medium transition shadow-md"
               >
                 WhatsApp Order
               </a>
@@ -97,7 +114,6 @@ const Footer = () => {
             </h3>
 
             <div className="space-y-5 text-sm text-slate-600">
-              {/* Admin Login */}
               <div>
                 <Link
                   href="/admin/login"
@@ -107,7 +123,6 @@ const Footer = () => {
                 </Link>
               </div>
 
-              {/* Phone */}
               <a
                 href="tel:+919335082270"
                 className="flex gap-3 hover:text-green-600 transition"
@@ -120,16 +135,15 @@ const Footer = () => {
                 </span>
               </a>
 
-              {/* Email */}
               <a
-                href="mailto:dayalfoods71@gmail.com"
+                href="mailto:support@dayalfoodstuffs.in"
                 className="flex gap-3 hover:text-green-600 transition break-all"
               >
                 <Mail size={16} className="mt-0.5 shrink-0" />
-                <span>dayalfoods71@gmail.com</span>
+
+                <span>support@dayalfoodstuffs.in</span>
               </a>
 
-              {/* Address */}
               <a
                 href="https://www.google.com/maps/search/?api=1&query=17-D+Nathmalpur+Near+Green+City+Colony+Gorakhnath+Gorakhpur+273015"
                 target="_blank"
@@ -144,9 +158,9 @@ const Footer = () => {
                 </span>
               </a>
 
-              {/* Timing */}
               <div className="flex gap-3">
                 <Clock3 size={16} className="mt-0.5 shrink-0" />
+
                 <span>Mon - Sun : 8:00 AM to 9:00 PM</span>
               </div>
             </div>

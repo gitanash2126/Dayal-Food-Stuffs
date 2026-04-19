@@ -1,25 +1,29 @@
 "use client";
-import { ArrowRight } from "lucide-react";
+
+import { ArrowRight, ShieldCheck, Leaf } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import logo from "@/assets/logo.jpeg";
 
 const ProductDescription = ({ product }) => {
   const [selectedTab, setSelectedTab] = useState("Description");
 
+  const tabs = ["Description", "Details", "Benefits"];
+
   return (
-    <div className="my-18 text-sm text-slate-600">
+    <div className="my-20 text-sm text-slate-600">
       {/* Tabs */}
-      <div className="flex border-b border-slate-200 mb-6 max-w-2xl">
-        {["Description", "Details"].map((tab, index) => (
+      <div className="flex flex-wrap gap-3 border-b border-slate-200 pb-4 mb-8">
+        {tabs.map((tab, index) => (
           <button
             key={index}
-            className={`px-3 py-2 font-medium ${
-              tab === selectedTab
-                ? "border-b-[1.5px] font-semibold"
-                : "text-slate-400"
-            }`}
             onClick={() => setSelectedTab(tab)}
+            className={`px-5 py-2 rounded-full font-medium transition ${
+              selectedTab === tab
+                ? "bg-green-600 text-white shadow-md"
+                : "bg-slate-100 text-slate-500 hover:bg-slate-200"
+            }`}
           >
             {tab}
           </button>
@@ -28,47 +32,100 @@ const ProductDescription = ({ product }) => {
 
       {/* Description */}
       {selectedTab === "Description" && (
-        <p className="max-w-xl">
-          {product.description ||
-            "Fresh and pure spice from Dayal Food Stuffs. Perfect for daily cooking with authentic taste and aroma."}
-        </p>
-      )}
-
-      {/* Details */}
-      {selectedTab === "Details" && (
-        <div className="space-y-2">
+        <div className="max-w-3xl space-y-4 leading-8 text-[15px]">
           <p>
-            <span className="font-medium">Category:</span> {product.category}
+            {product.description ||
+              "Fresh and pure spice from Dayal Food Stuffs. Perfect for daily cooking with authentic taste, rich aroma and premium quality."}
           </p>
 
           <p>
-            <span className="font-medium">Availability:</span> In Stock
-          </p>
-
-          <p>
-            <span className="font-medium">Brand:</span> Dayal Food Stuffs
+            Carefully packed hygienically to preserve freshness and flavour for
+            everyday use in your kitchen.
           </p>
         </div>
       )}
 
-      {/* Store */}
-      <div className="flex gap-3 mt-14">
-        <Image
-          src="https://source.unsplash.com/100x100/?spices"
-          alt=""
-          className="size-11 rounded-full"
-          width={100}
-          height={100}
-        />
+      {/* Details */}
+      {selectedTab === "Details" && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-3xl">
+          <div className="border border-slate-200 rounded-2xl p-5">
+            <p className="text-slate-400 text-xs mb-2">Category</p>
 
-        <div>
-          <p className="font-medium text-slate-700">
-            Sold by Dayal Food Stuffs
-          </p>
+            <p className="font-semibold text-slate-800">{product.category}</p>
+          </div>
 
-          <Link href="/" className="flex items-center gap-1 text-green-600">
-            view store <ArrowRight size={14} />
-          </Link>
+          <div className="border border-slate-200 rounded-2xl p-5">
+            <p className="text-slate-400 text-xs mb-2">Availability</p>
+
+            <p className="font-semibold text-green-600">In Stock</p>
+          </div>
+
+          <div className="border border-slate-200 rounded-2xl p-5">
+            <p className="text-slate-400 text-xs mb-2">Brand</p>
+
+            <p className="font-semibold text-slate-800">Dayal Food Stuffs</p>
+          </div>
+
+          <div className="border border-slate-200 rounded-2xl p-5">
+            <p className="text-slate-400 text-xs mb-2">Quality</p>
+
+            <p className="font-semibold text-slate-800">Premium Grade</p>
+          </div>
+        </div>
+      )}
+
+      {/* Benefits */}
+      {selectedTab === "Benefits" && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-3xl">
+          <div className="border border-slate-200 rounded-2xl p-5">
+            <Leaf className="text-green-600 mb-3" size={18} />
+
+            <p className="font-semibold text-slate-800">Fresh Aroma</p>
+
+            <p className="text-sm mt-2">
+              Natural fragrance and authentic flavour in every pack.
+            </p>
+          </div>
+
+          <div className="border border-slate-200 rounded-2xl p-5">
+            <ShieldCheck className="text-green-600 mb-3" size={18} />
+
+            <p className="font-semibold text-slate-800">Hygienically Packed</p>
+
+            <p className="text-sm mt-2">
+              Packed safely to maintain purity and freshness.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Sold By Section */}
+      <div className="mt-14 border-t border-slate-200 pt-8">
+        <div className="flex items-center gap-4">
+          <Image
+            src={logo}
+            alt="Dayal Food Stuffs"
+            width={58}
+            height={58}
+            className="rounded-full border-2 border-green-600 object-cover"
+          />
+
+          <div>
+            <p className="text-slate-400 text-xs uppercase tracking-wide">
+              Sold By
+            </p>
+
+            <h3 className="font-bold text-slate-800 text-lg">
+              Dayal Food Stuffs
+            </h3>
+
+            <Link
+              href="/"
+              className="mt-1 inline-flex items-center gap-1 text-green-600 hover:underline font-medium"
+            >
+              View Store <ArrowRight size={14} />
+            </Link>
+          </div>
         </div>
       </div>
     </div>
